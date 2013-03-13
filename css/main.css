@@ -18,7 +18,7 @@ body {
 	color: #479147;
 	height: 100%;
 }
-.container h1,h2,h3,h4,h5,h6 {
+.container h1,h2,h3,h4,h5,h6,legend,label {
 	color: #256FB9;
 }
 
@@ -50,8 +50,4 @@ body {
 
 .applyForm {
 	text-align: center;
-}
-
-label {
-	color: #256FB9;
 }

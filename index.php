@@ -1,10 +1,10 @@
-<?php
+O<?php
 	require("functions.php");
 	include("../private/config.php");
 ?>
 <html>
 	<head>
-		<title>GOMEOW</title>
+		<title>BukkThat</title>
 		<?php headIncludes(); ?>
 	</head>
 	<body>

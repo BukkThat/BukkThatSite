@@ -1,4 +1,4 @@
-O<?php
+<?php
 	require("functions.php");
 	include("../private/config.php");
 ?>

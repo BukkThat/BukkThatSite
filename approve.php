@@ -56,7 +56,7 @@
 									<td><?php echo $row['Bukkit']; ?></td>
 									<td><?php echo $row['Posts']; ?></td>
 									<td><?php echo $row['Plugins']; ?></td>
-									<td><a class='btn btn-primary' href='whitelistsend.php?user=<?php echo($row['Minecraft']); ?>&pw=<?php echo($whitelistpassword); ?>'>Yes</a><a class='btn btn-danger'>No</a></td>
+									<td><a class='btn btn-primary' href='whitelistsend.php?user=<?php echo($row['Minecraft']); ?>&pw=<?php echo($whitelistpassword); ?>'>Yes</a>&nbsp;&nbsp;&nbsp;<a class='btn btn-danger'>No</a></td>
 								</tr>
 								<?php
 							}

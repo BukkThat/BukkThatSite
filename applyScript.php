@@ -97,7 +97,12 @@
 		}
 		return (int) $json[$id]['project_count'];
 	}
-	if($_POST['method']!="confirm") {	
+	if($_POST['method']!="confirm") {
+		$db = connectDB($dbUser, $dbPass, $dbName);
+		if ($db instanceof PDOException) {
+			die ($db->getMessage());
+		}
+		
 		$minecraft = $_POST['minecraft'];
 		$bukkit = $_POST['bukkit'];
 		if(!isset($bukkit) || is_null($bukkit) || $minecraft=='') {
@@ -123,17 +128,8 @@
 			$minimum = true;
 		}
 		$plugins = getPluginCount($bukkit,getID($bukkit));
-		if($plugins > 2 && $plugins !== false) {
+		if($plugins >= 2 && $plugins !== false) {
 			$minimum = true;
-		}
-		if($minimum = false) {
-			header('Location: apply.php?e=5');
-			die();
-		}
-		
-		$db = connectDB($dbUser, $dbPass, $dbName);
-		if ($db instanceof PDOException) {
-			die ($db->getMessage());
 		}
 		
 		$sql = "SELECT * FROM `Applications` WHERE `Minecraft` = :mc OR `Bukkit` = :bk LIMIT 1"; 
@@ -145,8 +141,24 @@
 			header('Location: apply.php?e=6');
 			die('nope');
 		}
+		
 		$key = uniqid();
-		$sql = "INSERT INTO `Applications`(`Minecraft`, `Bukkit`, `Posts`, `Plugins`,`Approved`,`Key`,`Activated`) VALUES (:mc,:bk,:posts,:plugins,0,:key,0)";
+		
+		if($minimum = false) {
+			$sql = "INSERT INTO `Applications`(`Minecraft`, `Bukkit`, `Posts`, `Plugins`,`Approved`,`Waiting`,`Key`,`Activated`) VALUES (:mc,:bk,:posts,:plugins,0,1,:key,0)";
+			$stmt = $db->prepare($sql);
+			$stmt->bindParam(':mc', $minecraft);
+			$stmt->bindParam(':bk', $bukkit);
+			$stmt->execute();
+			$title = "BukkThat Verification";
+			$message = "[b]BukkThat Verification[/b]\n\nPlease visit this link:\nhttp://bukkthat.com/confirm.php?name=".$minecraft."&key=".$key;
+			$message .= "\n\nIf this was an error, please contact gomeow";
+			sendPM($bukkit, $title, $message);
+			header('Location: apply.php?s=2');
+			die();
+		}
+		
+		$sql = "INSERT INTO `Applications`(`Minecraft`, `Bukkit`, `Posts`, `Plugins`,`Approved`,`Waiting`,`Key`,`Activated`) VALUES (:mc,:bk,:posts,:plugins,0,0,:key,0)";
 		$stmt = $db->prepare($sql);
 		$stmt->bindParam(':mc', $minecraft);
 		$stmt->bindParam(':bk', $bukkit);
@@ -156,7 +168,7 @@
 		$stmt->execute();
 		
 		$title = "BukkThat Verification";
-		$message = "[b]BukkThat Verification[/b]\n\nYour key: ".$key."\n\nOr visit this link:\nhttp://gomeow.info/confirm.php?name=".$minecraft."&key=".$key;
+		$message = "[b]BukkThat Verification[/b]\n\nPlease visit this link:\nhttp://bukkthat.com/confirm.php?name=".$minecraft."&key=".$key;
 		$message .= "\n\nIf this was an error, please contact gomeow";
 		
 		sendPM($bukkit, $title, $message);

@@ -27,6 +27,7 @@
 					if($_GET['e'] == 6) { ?><div class="alert alert-error">An application has already been submitted with that Minecraft/Bukkit username.<br>
 					If this was an error, contact gomeow.</div><?php }
 					if($_GET['s'] == 1) { ?><div class="alert alert-warning alert-block"><b>Success!</b> <br />Now please click the link found in a private message over the Bukkit Forums to complete your application!</div><?php }
+					if($_GET['s'] == 2) { ?><div class="alert alert-warning alert-block"><b>Success!</b> <br />Now please click the link found in a private message over the Bukkit Forums to complete your application! Please note you were added to the vote list because you did not meet the plugin/post requirements. You will receive a new PM once you are voted in.</div><?php }
 				?>
 				<form class="applyForm" action="applyScript.php" method="POST">
 					<fieldset>
